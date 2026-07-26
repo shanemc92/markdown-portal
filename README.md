@@ -4,8 +4,6 @@ A single-file HTML portal that renders your Markdown guides in the browser with
 theming, a table of contents, text scaling, syntax highlighting, and per-block
 copy buttons. No build step - it parses `.md` files at runtime.
 
-![screenshot](docs/screenshot.png)
-
 ## Folder structure
 
 ```
@@ -31,8 +29,12 @@ guides/
 
 ## Quick start
 
-Two sample guides are included in `md/` (`Welcome.md` and
-`Command_Reference.md`) so you can see it running immediately — just
+Eight sample guides are included in `md/` — `Welcome.md`,
+`Command_Reference.md`, `Networking_Cheatsheet.md`,
+`Linux_Privilege_Escalation.md`, `Windows_AD_Notes.md`,
+`Web_App_Security_Cheatsheet.md`, and two under `Guides/`
+(`Getting_Started.md`, `Theming_Guide.md`, to demo folder grouping) — so
+you can see it running immediately, tags and all. Just
 follow step 3 below. When you're ready to use your own content:
 
 1. Drop your `.md` files into `md/` (subfolders are fine).
