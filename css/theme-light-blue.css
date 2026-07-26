@@ -1,0 +1,36 @@
+/* =====================================================
+   Light Blue Theme
+   Clean white background, pastel Frost blue accents
+   ===================================================== */
+
+:root {
+  --bg:           #ffffff;
+  --bg-alt:       #f5f8ff;
+  --text:         #1a1a1a;
+  --text-muted:   #444444;
+  --accent:       #5e81ac;  /* Nord Frost dark blue */
+  --accent2:      #81a1c1;  /* Nord Frost mid blue */
+  --border:       #c0d0e8;
+  --border-light: #dddddd;
+  --th-bg:        #5e81ac;
+  --th-text:      #ffffff;
+  --td-alt:       #f2f6fc;
+  --code-bg:      #f0f0f0;
+  --code-text:    #1a1a1a;
+  --pre-bg:       #f5f5f5;
+  --pre-text:     #1a1a1a;
+  --pre-border:   #81a1c1;
+  --bq-bg:        #f5f5f5;
+  --bq-border:    #999999;
+  --toc-bg:       #f5f8ff;
+  --toc-link:     #5e81ac;
+  --link:         #5e81ac;
+  --btn-bg:       #5e81ac;
+  --btn-text:     #ffffff;
+  --btn-hover:    #81a1c1;
+  --shadow:       rgba(94,129,172,0.15);
+  --bq-brain-border: #a3be8c;
+  --bq-brain-bg:     rgba(163,190,140,0.12);
+  --bq-bulb-border:  #5e81ac;
+  --bq-bulb-bg:      rgba(94,129,172,0.10);
+}

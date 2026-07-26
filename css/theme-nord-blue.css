@@ -1,0 +1,38 @@
+/* =====================================================
+   Nord Blue Theme
+   Nord Snow Storm background, Polar Night text,
+   Frost dark-blue accent — clean light reading theme
+   https://www.nordtheme.com/
+   ===================================================== */
+
+:root {
+  --bg:           #ffffff;  
+  --bg-alt:       #e5e9f0;  /* nord5  */
+  --text:         #2e3440;  /* nord0  — Polar Night darkest */
+  --text-muted:   #4c566a;  /* nord3  */
+  --accent:       #5e81ac;  /* nord10 — Frost dark blue */
+  --accent2:      #81a1c1;  /* nord9  — Frost mid blue */
+  --border:       #d0d6e0;
+  --border-light: #dde2ea;
+  --th-bg:        #5e81ac;
+  --th-text:      #eceff4;  /* nord6  — Snow Storm bright */
+  --td-alt:       #e5e9f0;
+  --code-bg:      #2e3440;  /* Polar Night — dark code on light page */
+  --code-text:    #a3be8c;  /* nord14 — Aurora green */
+  --pre-bg:       #2e3440;
+  --pre-text:     #d8dee9;  /* nord4 */
+  --pre-border:   #5e81ac;
+  --bq-bg:        #e5e9f0;
+  --bq-border:    #8fbcbb;  /* nord7 — Frost teal */
+  --toc-bg:       #e5e9f0;
+  --toc-link:     #5e81ac;
+  --link:         #5e81ac;
+  --btn-bg:       #5e81ac;
+  --btn-text:     #eceff4;
+  --btn-hover:    #4c7099;
+  --shadow:       rgba(94,129,172,0.18);
+  --bq-brain-border: #a3be8c;
+  --bq-brain-bg:     rgba(163,190,140,0.12);
+  --bq-bulb-border:  #5e81ac;
+  --bq-bulb-bg:      rgba(94,129,172,0.10);
+}

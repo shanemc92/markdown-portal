@@ -1,0 +1,425 @@
+/* =====================================================
+   Base Stylesheet — Revision Guides  v3
+   Structural CSS only. Theme files supply colour vars.
+   Load a theme CSS BEFORE this file.
+   ===================================================== */
+
+/* ── Google Fonts ─────────────────────────────────── */
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Pangolin&family=Patrick+Hand+SC&family=Fira+Code:wght@400;500&display=swap');
+
+/* ── CSS custom properties ────────────────────────── */
+:root {
+  --font-body:  'DM Sans', system-ui, sans-serif;
+  --font-code:  'Fira Code', 'Courier New', Consolas, monospace;
+  --font-scale: 1;
+}
+
+/* ── Reset ────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+/* ── Body ─────────────────────────────────────────── */
+body {
+  font-family: var(--font-body);
+  font-size: calc(14px * var(--font-scale));
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 0 28px 60px;
+  color: var(--text);
+  background: var(--bg);
+  line-height: 1.6;
+  transition: background 0.25s ease, color 0.25s ease;
+}
+
+/* ── Headings ─────────────────────────────────────── */
+h1 {
+  font-family: var(--font-body);
+  font-size: calc(22px * var(--font-scale));
+  color: var(--accent);
+  border-bottom: 3px solid var(--accent);
+  padding-bottom: 7px;
+  margin-top: 40px;
+  letter-spacing: 0.01em;
+}
+h2 {
+  font-family: var(--font-body);
+  font-size: calc(20px * var(--font-scale));
+  color: var(--accent);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 4px;
+  margin-top: 30px;
+}
+h3 {
+  font-family: var(--font-body);
+  font-size: calc(18px * var(--font-scale));
+  color: var(--accent2);
+  margin-top: 20px;
+  margin-bottom: 6px;
+}
+h4 {
+  font-family: var(--font-body);
+  font-size: calc(16px * var(--font-scale));
+  color: var(--text);
+  font-weight: bold;
+  margin-top: 14px;
+}
+
+/* ── Links ────────────────────────────────────────── */
+a { color: var(--link); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ── Tables — font-body so switcher applies ───────── */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 12px 0 18px;
+  font-size: calc(14px * var(--font-scale));
+  font-family: var(--font-body);
+}
+th {
+  background: var(--th-bg);
+  color: var(--th-text);
+  padding: 6px 10px;
+  text-align: left;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+}
+td {
+  padding: 4px 10px;
+  border: 1px solid var(--border-light);
+  vertical-align: top;
+  color: var(--text);
+}
+tr:nth-child(even) td { background: var(--td-alt); }
+
+/* ── Code — always Fira Code, never overridden ────── */
+code {
+  font-family: var(--font-code) !important;
+  background: var(--code-bg);
+  color: var(--code-text);
+  padding: 1px 5px;
+  border-radius: 3px;
+  font-size: calc(14px * var(--font-scale));
+}
+pre {
+  font-family: var(--font-code) !important;
+  background: var(--pre-bg);
+  color: var(--pre-text);
+  padding: 13px 18px;
+  border-radius: 5px;
+  overflow-x: auto;
+  font-size: calc(14px * var(--font-scale));
+  border-left: 3px solid var(--pre-border);
+  line-height: 1.65;
+  margin: 10px 0;
+}
+pre code { background: none; color: inherit; padding: 0; font-size: inherit; }
+
+/* ── Blockquotes ──────────────────────────────────── */
+blockquote {
+  font-family: var(--font-body);
+  border-left: 3px solid var(--bq-border);
+  margin: 10px 0;
+  padding: 7px 16px;
+  color: var(--text-muted);
+  background: var(--bq-bg);
+  border-radius: 0 5px 5px 0;
+  font-size: calc(14px * var(--font-scale));
+}
+/* 🧠 mnemonic blockquotes */
+blockquote.bq-brain {
+  border-left-color: var(--bq-brain-border);
+  background:        var(--bq-brain-bg);
+}
+/* 💡 tip blockquotes */
+blockquote.bq-bulb {
+  border-left-color: var(--bq-bulb-border);
+  background:        var(--bq-bulb-bg);
+}
+
+/* ── Lists ────────────────────────────────────────── */
+ul, ol { padding-left: 24px; margin: 6px 0 10px; }
+li { margin: 3px 0; }
+
+/* ── Paragraphs & HR ──────────────────────────────── */
+p { margin: 7px 0; }
+hr { border: none; border-top: 1px solid var(--border-light); margin: 24px 0; }
+
+/* ── Table of Contents — font-body so switcher applies */
+nav#TOC {
+  background: var(--toc-bg);
+  border: 1px solid var(--border);
+  padding: 14px 22px;
+  border-radius: 6px;
+  margin-bottom: 32px;
+  font-size: calc(14px * var(--font-scale));
+  font-family: var(--font-body);
+}
+nav#TOC ul { margin: 4px 0; padding-left: 18px; }
+nav#TOC > ul { padding-left: 0; list-style: none; }
+nav#TOC a { color: var(--toc-link); }
+nav#TOC a:hover { text-decoration: underline; }
+nav#TOC > ul > li { margin: 5px 0; font-weight: bold; }
+nav#TOC > ul > li > ul > li { font-weight: normal; margin: 2px 0; }
+
+/* =====================================================
+   CONTROL PANEL  (#ctrl-panel)
+
+   HTML structure:
+     <div id="ctrl-panel">
+       <button id="ctrl-btn">
+         <div class="bar"><span/><span/><span/></div>
+       </button>
+       <div id="ctrl-menu">
+         <a id="portal-link">
+         <div class="ctrl-divider">
+         <span class="ctrl-label">
+         <button class="theme-option" data-theme="...">
+           <span class="swatch">
+         <button class="font-option" data-font="...">
+           <span class="font-preview">
+         <div class="size-row">
+           <button class="size-btn" id="size-down">
+           <span class="size-label" id="size-label">
+           <button class="size-btn" id="size-up">
+   ===================================================== */
+
+/* ── Outer wrapper — fixed top-left ───────────────── */
+#ctrl-panel {
+  position: fixed;
+  top: 16px;
+  left: 18px;
+  z-index: 10000;
+  font-family: 'DM Sans', system-ui, sans-serif;
+}
+
+/* ── Hamburger button ─────────────────────────────── */
+#ctrl-btn {
+  width: 38px;
+  height: 34px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 10px var(--shadow);
+  transition: background 0.2s, box-shadow 0.2s;
+  padding: 0;
+}
+#ctrl-btn:hover {
+  background: var(--btn-hover);
+  box-shadow: 0 4px 16px var(--shadow);
+}
+
+.bar { display: flex; flex-direction: column; gap: 4px; pointer-events: none; }
+.bar span {
+  display: block;
+  width: 16px;
+  height: 2px;
+  background: var(--btn-text);
+  border-radius: 2px;
+  transition: transform 0.22s ease, opacity 0.22s ease;
+}
+#ctrl-panel.open .bar span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+#ctrl-panel.open .bar span:nth-child(2) { opacity: 0; }
+#ctrl-panel.open .bar span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+/* ── Dropdown menu ────────────────────────────────── */
+#ctrl-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  width: 210px;
+  background: var(--bg-alt);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 8px 28px var(--shadow);
+  overflow: hidden;
+  padding-bottom: 6px;
+}
+#ctrl-menu.open { display: block; animation: menuIn 0.18s ease; }
+
+@keyframes menuIn {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ── Back to Portal ───────────────────────────────── */
+#portal-link {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--btn-text);
+  background: var(--btn-bg);
+  text-decoration: none;
+  transition: background 0.15s;
+}
+#portal-link:hover { background: var(--btn-hover); text-decoration: none; }
+
+/* ── Back to Top ──────────────────────────────────── */
+#back-to-top-btn {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--btn-text);
+  background: var(--btn-bg);
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+  letter-spacing: 0.03em;
+  transition: background 0.15s;
+}
+#back-to-top-btn:hover { background: var(--btn-hover); }
+
+/* ── Divider ──────────────────────────────────────── */
+.ctrl-divider { border: none; border-top: 1px solid var(--border); margin: 6px 0 0; }
+
+/* ── Section label ────────────────────────────────── */
+.ctrl-label {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--text-muted);
+  padding: 8px 16px 4px;
+}
+
+/* ── Theme buttons ────────────────────────────────── */
+.theme-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text);
+  text-align: left;
+  transition: background 0.12s;
+}
+.theme-option:hover  { background: var(--border-light); }
+.theme-option.active { color: var(--accent); font-weight: 700; }
+
+.swatch {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+/* ── Font buttons ─────────────────────────────────── */
+.font-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  font-family: inherit;
+  color: var(--text);
+  text-align: left;
+  transition: background 0.12s;
+}
+.font-option:hover  { background: var(--border-light); }
+.font-option.active { color: var(--accent); font-weight: 700; }
+
+.font-preview {
+  width: 20px;
+  text-align: center;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  flex-shrink: 0;
+}
+.font-option[data-font="dm-sans"]       .font-preview { font-family: 'DM Sans', sans-serif; }
+.font-option[data-font="lora"]          .font-preview { font-family: 'Lora', Georgia, serif; }
+.font-option[data-font="montserrat"]    .font-preview { font-family: 'Montserrat', sans-serif; }
+.font-option[data-font="pangolin"]        .font-preview { font-family: 'Pangolin', cursive; }
+.font-option[data-font="patrick-hand-sc"] .font-preview { font-family: 'Patrick Hand SC', cursive; }
+.font-option[data-font="fira-code"]     .font-preview { font-family: 'Fira Code', monospace; }
+
+/* Suppress broken fi/fl ligatures in Patrick Hand SC */
+body.font-no-ligatures { font-variant-ligatures: none; }
+/* Patrick Hand SC reads small — bump 4px on text elements only; code always stays Fira Code at base size */
+body.font-patrick-hand-sc      { font-size: calc((14px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc h1   { font-size: calc((22px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc h2   { font-size: calc((20px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc h3   { font-size: calc((18px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc h4   { font-size: calc((16px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc table { font-size: calc((14px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc blockquote  { font-size: calc((14px + 4px) * var(--font-scale)); }
+body.font-patrick-hand-sc nav#TOC  { font-size: calc((14px + 4px) * var(--font-scale)); }
+/* Explicitly lock code/pre to Fira Code at the original size — never affected by font switching */
+body.font-patrick-hand-sc code { font-family: var(--font-code) !important; font-size: calc(14px * var(--font-scale)); }
+/*body.font-patrick-hand-sc pre  { font-family: var(--font-code) !important; font-size: calc(14px * var(--font-scale)); }*/
+
+/* ── Size row ─────────────────────────────────────── */
+.size-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 16px 10px;
+}
+.size-btn {
+  width: 26px;
+  height: 26px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s;
+  padding: 0;
+  flex-shrink: 0;
+}
+.size-btn:hover    { background: var(--btn-hover); }
+.size-btn:disabled { opacity: 0.35; cursor: default; }
+
+.size-label {
+  flex: 1;
+  text-align: center;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-variant-numeric: tabular-nums;
+  min-width: 38px;
+}
+
+/* ── Print ────────────────────────────────────────── */
+@media print {
+  body { max-width: 100%; padding: 0; }
+  nav#TOC { page-break-after: always; }
+  h1 { page-break-before: always; }
+  #ctrl-panel { display: none !important; }
+}
+
+/* ── Firefox: reduce box-shadow spread ────────────── */
+@-moz-document url-prefix() {
+  :root { --shadow: rgba(0,0,0,0.08); }
+  #ctrl-btn, #ctrl-menu, .guide-card { box-shadow: 0 1px 4px var(--shadow) !important; }
+  #ctrl-btn:hover, .guide-card:hover { box-shadow: 0 2px 8px var(--shadow) !important; }
+}

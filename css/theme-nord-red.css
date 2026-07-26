@@ -1,0 +1,38 @@
+/* =====================================================
+   Nord Red Theme
+   Nord Snow Storm background, Aurora red accent,
+   dark Polar Night code blocks
+   https://www.nordtheme.com/
+   ===================================================== */
+
+:root {
+  --bg:           #ffffff;
+  --bg-alt:       #e5e9f0;  /* nord5  */
+  --text:         #2e3440;  /* nord0  — Polar Night darkest */
+  --text-muted:   #4c566a;  /* nord3  */
+  --accent:       #bf616a;  /* nord11 — Aurora red */
+  --accent2:      #d08770;  /* nord12 — Aurora orange */
+  --border:       #dac8ca;
+  --border-light: #e8d8da;
+  --th-bg:        #bf616a;
+  --th-text:      #eceff4;  /* nord6  — Snow Storm bright */
+  --td-alt:       #e5e9f0;
+  --code-bg:      #2e3440;  /* Polar Night — dark code blocks */
+  --code-text:    #a3be8c;  /* nord14 — Aurora green */
+  --pre-bg:       #2e3440;
+  --pre-text:     #d8dee9;  /* nord4 */
+  --pre-border:   #bf616a;
+  --bq-bg:        #e5e9f0;
+  --bq-border:    #bf616a;
+  --toc-bg:       #e5e9f0;
+  --toc-link:     #bf616a;
+  --link:         #bf616a;
+  --btn-bg:       #bf616a;
+  --btn-text:     #eceff4;
+  --btn-hover:    #a8525a;
+  --shadow:       rgba(191,97,106,0.18);
+  --bq-brain-border: #a3be8c;
+  --bq-brain-bg:     rgba(163,190,140,0.12);
+  --bq-bulb-border:  #bf616a;
+  --bq-bulb-bg:      rgba(191,97,106,0.10);
+}

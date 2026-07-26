@@ -1,0 +1,38 @@
+/* =====================================================
+   Nord Dark Theme
+   Polar Night background, Snow Storm text,
+   Frost teal accent
+   https://www.nordtheme.com/
+   ===================================================== */
+
+:root {
+  --bg:           #2e3440;  /* nord0  — Polar Night darkest */
+  --bg-alt:       #3b4252;  /* nord1  */
+  --text:         #eceff4;  /* nord6  — Snow Storm bright */
+  --text-muted:   #9099a8;
+  --accent:       #88c0d0;  /* nord8  — Frost teal */
+  --accent2:      #81a1c1;  /* nord9  — Frost mid blue */
+  --border:       #434c5e;  /* nord2  */
+  --border-light: #3b4252;
+  --th-bg:        #3b4252;
+  --th-text:      #eceff4;
+  --td-alt:       #2e3440;
+  --code-bg:      #252a33;
+  --code-text:    #a3be8c;  /* nord14 — Aurora green */
+  --pre-bg:       #252a33;
+  --pre-text:     #d8dee9;  /* nord4 */
+  --pre-border:   #88c0d0;
+  --bq-bg:        #3b4252;
+  --bq-border:    #4c566a;  /* nord3 */
+  --toc-bg:       #3b4252;
+  --toc-link:     #88c0d0;
+  --link:         #88c0d0;
+  --btn-bg:       #3b4252;
+  --btn-text:     #88c0d0;
+  --btn-hover:    #434c5e;
+  --shadow:       rgba(136,192,208,0.15);
+  --bq-brain-border: #a3be8c;
+  --bq-brain-bg:     rgba(163,190,140,0.10);
+  --bq-bulb-border:  #88c0d0;
+  --bq-bulb-bg:      rgba(136,192,208,0.10);
+}

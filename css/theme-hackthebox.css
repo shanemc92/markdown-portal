@@ -1,0 +1,38 @@
+/* =====================================================
+   HackTheBox Theme
+   Based on the official silofy/hackthebox VS Code theme
+   bg: #111927  accent: #9fef00  text: #a4b1cd
+   ===================================================== */
+
+:root {
+  --bg:           #111927;
+  --bg-alt:       #1a2332;
+  --text:         #a4b1cd;
+  --text-muted:   #6e7b96;
+  --accent:       #9fef00;
+  --accent2:      #2ee7b6;
+  --border:       #313f55;
+  --border-light: #1e2d42;
+  --th-bg:        #1a2332;
+  --th-text:      #a4b1cd;
+  --td-alt:       #141e2c;
+  --code-bg:      #0d1520;
+  --code-text:    #9fef00;
+  --pre-bg:       #0d1520;
+  --pre-text:     #a4b1cd;
+  --pre-border:   #9fef00;
+  --bq-bg:        #141e2c;
+  --bq-border:    #313f55;
+  --bq-brain-bg:      #0d1a0d;
+  --bq-brain-border:  #9fef00;
+  --bq-bulb-bg:       #0d1a24;
+  --bq-bulb-border:   #2ee7b6;
+  --toc-bg:       #0d1520;
+  --toc-link:     #9fef00;
+  --link:         #9fef00;
+  --btn-bg:       #1a2332;
+  --btn-text:     #9fef00;
+  --btn-hover:    #253048;
+  --shadow:       rgba(159,239,0,0.12);
+  --font-ui:      'DM Sans', sans-serif;
+}

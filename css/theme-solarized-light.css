@@ -1,0 +1,37 @@
+/* =====================================================
+   Solarized Light Theme
+   Canonical Ethan Schoonover Solarized Light palette
+   https://ethanschoonover.com/solarized/
+   ===================================================== */
+
+:root {
+  --bg:           #fdf6e3;  /* base3  — main background */
+  --bg-alt:       #eee8d5;  /* base2  */
+  --text:         #657b83;  /* base00 — body text */
+  --text-muted:   #93a1a1;  /* base1  — secondary */
+  --accent:       #b58900;  /* yellow */
+  --accent2:      #cb4b16;  /* orange */
+  --border:       #ccc4b0;
+  --border-light: #ddd6c4;
+  --th-bg:        #b58900;
+  --th-text:      #fdf6e3;
+  --td-alt:       #eee8d5;
+  --code-bg:      #eee8d5;  /* base2  — warm light inline code */
+  --code-text:    #2aa198;  /* cyan */
+  --pre-bg:       #e8e0cb;  /* slightly deeper than base2 for pre blocks */
+  --pre-text:     #586e75;  /* base01 — readable dark text */
+  --pre-border:   #b58900;  /* yellow accent left border */
+  --bq-bg:        #eee8d5;
+  --bq-border:    #93a1a1;
+  --toc-bg:       #eee8d5;
+  --toc-link:     #268bd2;  /* blue */
+  --link:         #268bd2;
+  --btn-bg:       #b58900;
+  --btn-text:     #fdf6e3;
+  --btn-hover:    #ceae4d;
+  --shadow:       rgba(181,137,0,0.18);
+  --bq-brain-border: #859900;
+  --bq-brain-bg:     rgba(133,153,0,0.10);
+  --bq-bulb-border:  #268bd2;
+  --bq-bulb-bg:      rgba(38,139,210,0.10);
+}

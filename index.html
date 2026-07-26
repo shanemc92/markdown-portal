@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Revision Guides</title>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+  <!-- CDN languages: Python, Bash/Shell, PowerShell -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+
+  <!-- Custom languages (not shipped by highlight.js). See README → "Adding a language". -->
+  <script>
+    // ```csv``` — quoted fields, numbers, and delimiters (, ; tab).
+    hljs.registerLanguage('csv', function() {
+      return {
+        name: 'CSV',
+        aliases: ['tsv'],
+        contains: [
+          { scope: 'string', begin: '"', end: '"', contains: [{ begin: '""' }] },
+          { scope: 'number', match: /-?\b\d+(?:\.\d+)?\b/ },
+          { scope: 'punctuation', match: /[,;\t]/ }
+        ]
+      };
+    });
+
+    // ```prompt``` — a terminal/console session. The leading prompt
+    // ($, #, >, PS C:\>, user@host:~$) is highlighted; the command follows;
+    // lines with no prompt are treated as command output (left plain).
+    hljs.registerLanguage('prompt', function() {
+      var PROMPT = /^(?:[\w.-]+@[\w.-]+:[^\n$#%]*[$#%]|PS [^\n>]*>|C:\\[^\n>]*>|[~/][^\n$#%]*[$#%]|[$#%>])/;
+      return {
+        name: 'Prompt',
+        aliases: ['console', 'session', 'shell-session'],
+        contains: [
+          {
+            begin: PROMPT, returnBegin: true, end: /$/,
+            contains: [
+              { scope: 'meta', begin: PROMPT },
+              { scope: 'comment', begin: /[ \t]#[ \t]/, end: /$/ }
+            ]
+          }
+        ]
+      };
+    });
+  </script>
+
+  <link id="hljs-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="css/base.css">
+  <link id="theme-css" rel="stylesheet" href="css/theme-light-blue.css">
+
+  <style>
+    /* ── Guide content rendering ───────────────────── */
+    a         { color: var(--link); }
+    a:visited { color: var(--link); }
+    hr        { background: var(--border,#ccc); border: none; height: 1px; margin: 1em 0; }
+    tbody     { border-top: 1px solid var(--border,#ccc); border-bottom: 1px solid var(--border,#ccc); }
+    th        { border-top: 1px solid var(--border,#ccc); padding: 0.25em 0.5em; }
+    td        { padding: 0.125em 0.5em 0.25em; }
+    blockquote {
+      margin: 1em 0 1em 1.7em; padding-left: 1em;
+      border-left: 2px solid var(--border,#e6e6e6);
+      color: var(--text-muted,#606060);
+    }
+    code  { font-family: var(--font-code,'Courier New',monospace); font-size: 85%; }
+    pre   { margin: 1em 0; overflow: auto; }
+
+    /* CSV delimiters (highlight.js has no default colour for this scope) */
+    .hljs-punctuation { color: var(--text-muted,#888); }
+
+    /* Copy button on code blocks */
+    .code-wrap { position: relative; }
+    .code-wrap > .copy-btn {
+      position: absolute; top: 6px; right: 6px;
+      font: 600 11px/1 var(--font-ui,sans-serif);
+      padding: 4px 8px; border: 1px solid var(--border,#ccc); border-radius: 4px;
+      background: var(--pre-bg,#1e1e1e); color: var(--text-muted,#888);
+      cursor: pointer; opacity: 0; transition: opacity .12s;
+    }
+    .code-wrap:hover > .copy-btn { opacity: 1; }
+    .code-wrap > .copy-btn:hover { color: var(--accent,#4caf50); border-color: var(--accent,#4caf50); }
+    .code-wrap > .copy-btn.copied { color: var(--accent,#4caf50); border-color: var(--accent,#4caf50); }
+    table { margin: 1em 0; border-collapse: collapse; width: 100%; overflow-x: auto; display: block; }
+
+    /* ── File list view ─────────────────────────────── */
+    #file-list-view {
+      max-width: 920px;
+      margin: 56px auto 0;
+      padding: 0 28px 80px;
+    }
+
+    #file-list-view h1 {
+      font-size: calc(22px * var(--font-scale));
+      color: var(--accent);
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: calc(12px * var(--font-scale));
+      margin-bottom: 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .file-count {
+      display: inline-block;
+      background: var(--accent);
+      color: var(--th-text);
+      font-family: var(--font-ui);
+      font-size: 10px; font-weight: 700;
+      padding: 2px 8px; border-radius: 10px;
+      vertical-align: middle;
+    }
+
+    #reload-btn {
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 5px;
+      color: var(--text-muted);
+      font-family: var(--font-ui);
+      font-size: 11px;
+      padding: 3px 9px;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    #reload-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* ── Folder group ───────────────────────────────── */
+    .folder-group { margin-bottom: 28px; }
+
+    .folder-heading {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      font-family: var(--font-ui);
+      font-size: calc(11px * var(--font-scale));
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 8px;
+      padding-bottom: 5px;
+      border-bottom: 1px solid var(--border-light);
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .folder-heading:hover { color: var(--accent); }
+
+    .folder-icon {
+      font-size: 13px;
+      flex-shrink: 0;
+      transition: transform 0.18s ease;
+    }
+
+    .folder-group.collapsed .folder-icon { transform: rotate(-90deg); }
+
+    .folder-count {
+      background: var(--border-light);
+      color: var(--text-muted);
+      font-size: 10px;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 8px;
+      margin-left: auto;
+    }
+
+    .folder-body { overflow: hidden; }
+    .folder-group.collapsed .folder-body { display: none; }
+
+    /* ── File rows (compact) ────────────────────────── */
+    .file-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.12s, color 0.12s;
+      font-family: var(--font-ui);
+      position: relative;
+    }
+
+    .file-row:hover {
+      background: var(--border-light);
+    }
+
+    .file-row-icon {
+      font-size: 13px;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .file-row-title {
+      flex: 1;
+      font-size: calc(13px * var(--font-scale));
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      font-weight: 600;
+    }
+
+    .file-row:hover .file-row-title { color: var(--accent); }
+
+    .file-row-tag {
+      font-size: calc(10px * var(--font-scale));
+      color: var(--text-muted);
+      white-space: nowrap;
+      flex-shrink: 0;
+      padding: 1px 7px;
+      border-radius: 8px;
+      border: 1px solid var(--border-light);
+      display: none; /* hidden on mobile, shown on wider screens */
+    }
+
+    @media (min-width: 540px) {
+      .file-row-tag { display: block; }
+    }
+
+    .file-row-arrow {
+      font-size: 12px;
+      color: var(--accent);
+      opacity: 0;
+      flex-shrink: 0;
+      transition: opacity 0.15s, transform 0.15s;
+    }
+
+    .file-row:hover .file-row-arrow { opacity: 1; transform: translateX(2px); }
+
+    /* ── Loading / error ────────────────────────────── */
+    #loading-banner {
+      padding: 60px; text-align: center;
+      font-family: var(--font-ui); color: var(--text-muted);
+    }
+    #error-banner {
+      display: none;
+      background: var(--bg-alt); border: 1px solid var(--border);
+      border-radius: 10px; padding: 32px; margin-top: 24px;
+      font-family: var(--font-ui); color: var(--text-muted);
+    }
+    #error-banner h2 { color: var(--accent); margin: 0 0 12px; }
+    #error-banner code {
+      display: block; background: var(--pre-bg); color: var(--code-text);
+      padding: 10px 16px; border-radius: 5px; margin: 10px 0; font-size: 11px;
+    }
+
+    .spinner {
+      width: 32px; height: 32px;
+      border: 3px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      margin: 0 auto 14px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ── Guide view ─────────────────────────────────── */
+    #guide-view { display: none; }
+
+    #back-to-list-btn {
+      display: none;
+      width: 100%;
+      background: var(--btn-bg);
+      color: var(--btn-text);
+      border: none; border-radius: 4px;
+      padding: 7px 12px;
+      text-align: left; cursor: pointer;
+      font-family: var(--font-ui); font-size: 13px;
+      margin-bottom: 2px;
+      transition: background 0.15s;
+    }
+    #back-to-list-btn:hover { background: var(--btn-hover); }
+  </style>
+</head>
+<body>
+
+<!-- Control panel -->
+<div id="ctrl-panel">
+  <button id="ctrl-btn" onclick="toggleCtrl()" aria-label="Open settings">
+    <div class="bar"><span></span><span></span><span></span></div>
+  </button>
+  <div id="ctrl-menu">
+    <button id="back-to-list-btn" onclick="showList()">&#8592; Guide List</button>
+    <button id="back-to-top-btn" onclick="scrollToTop()">&#8593; Back to Top</button>
+    <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Theme</span>
+    <button class="theme-option" onclick="setTheme('light-blue')"      data-theme="light-blue">      <span class="swatch" style="background:#ffffff;border-color:#5e81ac"></span> Light Blue</button>
+    <button class="theme-option" onclick="setTheme('light-red')"       data-theme="light-red">       <span class="swatch" style="background:#ffffff;border-color:#bf616a"></span> Light Red</button>
+    <button class="theme-option" onclick="setTheme('alucard')"         data-theme="alucard">         <span class="swatch" style="background:#fffbeb;border-color:#644ac9"></span> Alucard</button>
+    <button class="theme-option" onclick="setTheme('dracula')"         data-theme="dracula">         <span class="swatch" style="background:#282a36;border-color:#bd93f9"></span> Dracula</button>
+    <button class="theme-option" onclick="setTheme('solarized-light')" data-theme="solarized-light"> <span class="swatch" style="background:#fdf6e3;border-color:#b58900"></span> Solarized Light</button>
+    <button class="theme-option" onclick="setTheme('solarized-dark')"  data-theme="solarized-dark">  <span class="swatch" style="background:#002b36;border-color:#b58900"></span> Solarized Dark</button>
+    <button class="theme-option" onclick="setTheme('terminal')"        data-theme="terminal">        <span class="swatch" style="background:#0a0f0a;border-color:#00ff41"></span> Terminal</button>
+    <button class="theme-option" onclick="setTheme('hackthebox')"      data-theme="hackthebox">      <span class="swatch" style="background:#111927;border-color:#9fef00"></span> HackTheBox</button>
+    <button class="theme-option" onclick="setTheme('dark')"            data-theme="dark">            <span class="swatch" style="background:#0a0a0a;border-color:#444444"></span> Dark</button>
+    <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Font</span>
+    <button class="font-option" onclick="setFont('dm-sans')"         data-font="dm-sans">         <span class="font-preview">Aa</span> DM Sans</button>
+    <button class="font-option" onclick="setFont('lora')"            data-font="lora">            <span class="font-preview">Aa</span> Lora</button>
+    <button class="font-option" onclick="setFont('montserrat')"      data-font="montserrat">      <span class="font-preview">Aa</span> Montserrat</button>
+    <button class="font-option" onclick="setFont('pangolin')"        data-font="pangolin">        <span class="font-preview">Aa</span> Pangolin</button>
+    <button class="font-option" onclick="setFont('patrick-hand-sc')" data-font="patrick-hand-sc"> <span class="font-preview">Aa</span> Patrick Hand SC</button>
+    <button class="font-option" onclick="setFont('fira-code')"       data-font="fira-code">       <span class="font-preview">Aa</span> Fira Code</button>
+    <div class="ctrl-divider"></div>
+    <span class="ctrl-label">Text Size</span>
+    <div class="size-row">
+      <button class="size-btn" id="size-down" onclick="adjustSize(-1)">−</button>
+      <span   class="size-label" id="size-label">100%</span>
+      <button class="size-btn" id="size-up"   onclick="adjustSize(+1)">+</button>
+    </div>
+  </div>
+</div>
+
+<!-- File list view -->
+<div id="file-list-view">
+  <h1>Revision Guides
+    <span class="file-count" id="file-count" style="display:none"></span>
+  </h1>
+  <p class="subtitle">
+    <span>Markdown files from <code>md/</code></span>
+    <button id="reload-btn" onclick="scanFolder()">↺ Refresh</button>
+  </p>
+  <div id="loading-banner"><div class="spinner"></div>Scanning…</div>
+  <div id="error-banner"></div>
+  <div id="guide-cards"></div>
+</div>
+
+<!-- Guide content view -->
+<div id="guide-view">
+  <nav id="TOC"></nav>
+  <div id="guide-content"></div>
+</div>
+
+<script>
+// ── Themes ──────────────────────────────────────────────────
+var THEMES = {
+  'light-blue':      { file: 'css/theme-light-blue.css',      hljs: 'atom-one-light'   },
+  'light-red':       { file: 'css/theme-light-red.css',       hljs: 'atom-one-light'   },
+  'alucard':         { file: 'css/theme-alucard.css',         hljs: 'atom-one-light'   },
+  'dracula':         { file: 'css/theme-dracula.css',         hljs: 'atom-one-dark'    },
+  'solarized-light': { file: 'css/theme-solarized-light.css', hljs: 'solarized-light'  },
+  'solarized-dark':  { file: 'css/theme-solarized-dark.css',  hljs: 'solarized-dark'   },
+  'terminal':        { file: 'css/theme-terminal.css',        hljs: 'base16/green-screen' },
+  'dark':            { file: 'css/theme-dark.css',            hljs: 'atom-one-dark'    },
+  'hackthebox':      { file: 'css/theme-hackthebox.css',      hljs: 'atom-one-dark'    },
+};
+
+var HLJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/';
+
+function setTheme(name) {
+  var t = THEMES[name]; if (!t) return;
+  document.getElementById('theme-css').setAttribute('href', t.file);
+  document.getElementById('hljs-css').setAttribute('href', HLJS_BASE + t.hljs + '.min.css');
+  document.querySelectorAll('.theme-option').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-theme') === name);
+  });
+  localStorage.setItem('rg-theme', name);
+}
+
+// ── Fonts ────────────────────────────────────────────────────
+var FONTS = {
+  'dm-sans':         "'DM Sans', sans-serif",
+  'lora':            "'Lora', Georgia, serif",
+  'montserrat':      "'Montserrat', sans-serif",
+  'pangolin':        "'Pangolin', cursive",
+  'patrick-hand-sc': "'Patrick Hand SC', cursive",
+  'fira-code':       "'Fira Code', monospace",
+};
+
+function setFont(name) {
+  var stack = FONTS[name]; if (!stack) return;
+  document.documentElement.style.setProperty('--font-body', stack);
+  document.querySelectorAll(
+    'body, h1, h2, h3, h4, p, li, blockquote, table, th, td, nav#TOC, nav#TOC *'
+  ).forEach(function(el) { el.style.fontFamily = stack; });
+  document.querySelectorAll('code, pre').forEach(function(el) {
+    el.style.fontFamily = "'Fira Code', 'Courier New', Consolas, monospace";
+  });
+  document.querySelectorAll('.font-option').forEach(function(b) {
+    b.classList.toggle('active', b.getAttribute('data-font') === name);
+  });
+  document.body.classList.toggle('font-no-ligatures',    name === 'patrick-hand-sc');
+  document.body.classList.toggle('font-patrick-hand-sc', name === 'patrick-hand-sc');
+  localStorage.setItem('rg-font', name);
+}
+
+// ── Size ─────────────────────────────────────────────────────
+var SIZES = [0.5,0.6,0.7,0.8,0.9,1.0,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2.0];
+var sizeIdx = 5;
+
+function applySize(idx) {
+  sizeIdx = Math.max(0, Math.min(SIZES.length - 1, idx));
+  document.documentElement.style.setProperty('--font-scale', SIZES[sizeIdx]);
+  document.getElementById('size-label').textContent = Math.round(SIZES[sizeIdx]*100) + '%';
+  document.getElementById('size-down').disabled = (sizeIdx === 0);
+  document.getElementById('size-up').disabled   = (sizeIdx === SIZES.length - 1);
+  localStorage.setItem('rg-size', sizeIdx);
+}
+
+function adjustSize(dir) { applySize(sizeIdx + dir); }
+
+// ── Control panel ────────────────────────────────────────────
+function toggleCtrl() {
+  var open = document.getElementById('ctrl-menu').classList.toggle('open');
+  document.getElementById('ctrl-panel').classList.toggle('open', open);
+}
+
+function scrollToTop() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  document.getElementById('ctrl-menu').classList.remove('open');
+  document.getElementById('ctrl-panel').classList.remove('open');
+}
+
+document.addEventListener('click', function(e) {
+  var panel = document.getElementById('ctrl-panel');
+  if (panel && !panel.contains(e.target)) {
+    document.getElementById('ctrl-menu').classList.remove('open');
+    panel.classList.remove('open');
+  }
+});
+
+// ── Folder scanning ──────────────────────────────────────────
+// index.json format (supports subfolders):
+//   ["file.md", "subfolder/file.md", "subfolder/other.md"]
+// The generator script handles recursive discovery.
+
+function scanFolder() {
+  document.getElementById('loading-banner').style.display = 'block';
+  document.getElementById('guide-cards').innerHTML = '';
+  document.getElementById('error-banner').style.display = 'none';
+  document.getElementById('file-count').style.display = 'none';
+
+  fetch('md/index.json?_=' + Date.now())
+    .then(function(r) { if (!r.ok) throw new Error('no index.json'); return r.json(); })
+    .then(function(files) {
+      if (!Array.isArray(files) || !files.length) throw new Error('empty index.json');
+      renderList(files.filter(function(f) {
+        var p = typeof f === 'object' ? f.path : f;
+        return /\.md$/i.test(p);
+      }));
+    })
+    .catch(function() {
+      fetch('md/')
+        .then(function(r) { return r.text(); })
+        .then(function(html) {
+          // Directory listing — only catches top-level files
+          var matches = (html.match(/href="([^"#?]+\.md)"/gi) || []);
+          var files = matches
+            .map(function(m) { return m.replace(/^href="/i,'').replace(/"$/,'').replace(/^md\//,''); })
+            .filter(function(f,i,a) { return f && a.indexOf(f) === i; });
+          if (!files.length) throw new Error('empty directory listing');
+          renderList(files);
+        })
+        .catch(function(err) { handleScanError(err); });
+    });
+}
+
+function handleScanError(err) {
+  document.getElementById('loading-banner').style.display = 'none';
+  if (GUIDE_FILES.length) { renderList(GUIDE_FILES); return; }
+  var b = document.getElementById('error-banner');
+  b.style.display = 'block';
+  b.innerHTML =
+    '<h2>Could not read <code>md/</code></h2>' +
+    '<p>Create <code>md/index.json</code> using the generator script below, or run a local server.</p>' +
+    '<p><strong>Generate index.json</strong> (run from the folder containing <code>index.html</code>):</p>' +
+    '<code>python3 -c "\nimport os, json\nfiles = []\nfor root, dirs, fs in os.walk(\'md\'):\n  for f in sorted(fs):\n    if f.endswith(\'.md\'):\n      rel = os.path.relpath(os.path.join(root, f), \'md\').replace(os.sep, \'/\')\n      if not rel.startswith(\'.\'):\n        files.append(rel)\nwith open(\'md/index.json\',\'w\') as fp: json.dump(sorted(files), fp, indent=2)\nprint(f\'Written {len(files)} files\')\n"</code>' +
+    '<p><strong>Or run a local server</strong> (auto-discovers without index.json):</p>' +
+    '<code>python3 -m http.server 8080</code>' +
+    '<p style="font-size:10px;margin-top:10px;color:var(--text-muted)">(' + esc(String(err)) + ')</p>';
+}
+
+// ── Render grouped list ──────────────────────────────────────
+// Files are path strings like "file.md" or "subfolder/file.md"
+// Files in the root md/ folder go in a special "__root__" group.
+
+function renderList(files) {
+  document.getElementById('loading-banner').style.display = 'none';
+
+  var total = files.length;
+  var countEl = document.getElementById('file-count');
+  countEl.textContent = total + ' file' + (total !== 1 ? 's' : '');
+  countEl.style.display = 'inline-block';
+
+  var container = document.getElementById('guide-cards');
+  container.innerHTML = '';
+
+  if (!total) {
+    container.innerHTML = '<p style="color:var(--text-muted);font-family:var(--font-ui)">No <code>.md</code> files found.</p>';
+    return;
+  }
+
+  // Group by folder — preserve the order from index.json (already sorted by generate_index.py)
+  var groups = {};
+  var order  = [];
+
+  files.forEach(function(entry) {
+    // Support both plain strings and {path, tag} objects
+    var path = typeof entry === 'object' ? entry.path : entry;
+    var tag  = typeof entry === 'object' ? (entry.tag || '') : '';
+    var parts  = path.replace(/\\/g, '/').split('/');
+    var folder = parts.length > 1 ? parts.slice(0, -1).join('/') : '__root__';
+    if (!groups[folder]) { groups[folder] = []; order.push(folder); }
+    groups[folder].push({ path: path, tag: tag });
+  });
+
+  // Retrieve saved collapse state
+  var collapseState = {};
+  try { collapseState = JSON.parse(localStorage.getItem('rg-folders') || '{}'); } catch(e) {}
+
+  order.forEach(function(folder) {
+    var groupFiles = groups[folder];
+    var isRoot     = folder === '__root__';
+
+    var groupEl = document.createElement('div');
+    groupEl.className = 'folder-group';
+
+    // Restore collapse state (default open)
+    if (collapseState[folder] === true) groupEl.classList.add('collapsed');
+
+    // Heading (skip for root if there's only one group and it IS root)
+    var headingEl = document.createElement('div');
+    headingEl.className = 'folder-heading';
+
+    var folderLabel = isRoot
+      ? (order.length === 1 ? 'All Guides' : 'Root')
+      : folder.split('/').map(function(s) {
+          return s.replace(/[_-]/g,' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
+        }).join(' › ');
+
+    headingEl.innerHTML =
+      '<span class="folder-icon">▾</span>' +
+      '<span>' + esc(folderLabel) + '</span>' +
+      '<span class="folder-count">' + groupFiles.length + '</span>';
+
+    headingEl.addEventListener('click', function() {
+      groupEl.classList.toggle('collapsed');
+      // Persist state
+      collapseState[folder] = groupEl.classList.contains('collapsed');
+      try { localStorage.setItem('rg-folders', JSON.stringify(collapseState)); } catch(e) {}
+    });
+
+    var bodyEl = document.createElement('div');
+    bodyEl.className = 'folder-body';
+
+    groupFiles.forEach(function(entry) {
+      var filepath = entry.path;
+      var tag      = entry.tag || '';
+      var filename = filepath.split('/').pop();
+      var title = filename
+        .replace(/\.md$/i, '')
+        .replace(/[_-]+/g, ' ')
+        .replace(/\bv(\d+)\b/gi, 'v$1')
+        .trim();
+
+      var row = document.createElement('div');
+      row.className = 'file-row';
+      row.tabIndex  = 0;
+      row.innerHTML =
+        '<span class="file-row-icon">📄</span>' +
+        '<span class="file-row-title">' + esc(title) + '</span>' +
+        (tag ? '<span class="file-row-tag">' + esc(tag) + '</span>' : '') +
+        '<span class="file-row-arrow">›</span>';
+
+      row.onclick    = function() { loadGuide(filepath); };
+      row.onkeydown  = function(e) { if (e.key==='Enter'||e.key===' ') loadGuide(filepath); };
+      bodyEl.appendChild(row);
+    });
+
+    groupEl.appendChild(headingEl);
+    groupEl.appendChild(bodyEl);
+    container.appendChild(groupEl);
+  });
+}
+
+// ── Guide loading & rendering ────────────────────────────────
+function loadGuide(filepath) {
+  document.getElementById('file-list-view').style.display = 'none';
+  document.getElementById('guide-view').style.display = 'block';
+  document.getElementById('back-to-list-btn').style.display = 'block';
+  document.getElementById('TOC').innerHTML = '';
+  document.getElementById('guide-content').innerHTML =
+    '<div style="padding:60px;text-align:center;font-family:var(--font-ui);color:var(--text-muted)">' +
+    '<div class="spinner" style="margin:0 auto 14px"></div>Loading…</div>';
+
+  var title = filepath.split('/').pop().replace(/\.md$/i,'').replace(/[_-]+/g,' ');
+  document.title = title;
+  window.scrollTo(0, 0);
+
+  fetch('md/' + filepath)
+    .then(function(r) { if (!r.ok) throw new Error('HTTP ' + r.status); return r.text(); })
+    .then(function(md) { renderGuide(md, title); })
+    .catch(function(err) {
+      document.getElementById('guide-content').innerHTML =
+        '<div style="padding:40px;text-align:center;font-family:var(--font-ui);color:var(--text-muted)">' +
+        '<h2 style="color:var(--accent)">Could not load guide</h2>' +
+        '<p>' + esc(String(err)) + '</p>' +
+        '<button onclick="showList()" style="margin-top:16px;padding:8px 18px;background:var(--btn-bg);color:var(--btn-text);border:none;border-radius:5px;cursor:pointer">← Back</button>' +
+        '</div>';
+    });
+}
+
+function renderGuide(markdown, title) {
+  // Configure marked with highlight.js for syntax highlighting
+  marked.setOptions({
+    gfm: true,
+    breaks: false,
+    highlight: function(code, lang) {
+      var language = hljs.getLanguage(lang) ? lang : null;
+      if (language) {
+        try { return hljs.highlight(code, { language: language }).value; } catch(e) {}
+      }
+      return hljs.highlightAuto(code, ['python','bash','powershell']).value;
+    }
+  });
+
+  var content = document.getElementById('guide-content');
+  content.innerHTML = marked.parse(markdown);
+
+  // Highlight any code blocks marked didn't tag with a language
+  content.querySelectorAll('pre code:not(.hljs)').forEach(function(block) {
+    hljs.highlightElement(block);
+  });
+
+  // Add a copy button to every code block
+  content.querySelectorAll('pre').forEach(function(pre) {
+    if (pre.parentElement.classList.contains('code-wrap')) return;
+    var wrap = document.createElement('div');
+    wrap.className = 'code-wrap';
+    pre.parentNode.insertBefore(wrap, pre);
+    wrap.appendChild(pre);
+    var btn = document.createElement('button');
+    btn.className = 'copy-btn';
+    btn.type = 'button';
+    btn.textContent = 'Copy';
+    btn.addEventListener('click', function() {
+      navigator.clipboard.writeText(pre.innerText).then(function() {
+        btn.textContent = 'Copied';
+        btn.classList.add('copied');
+        setTimeout(function() { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 1200);
+      });
+    });
+    wrap.appendChild(btn);
+  });
+
+  content.querySelectorAll('h1,h2,h3').forEach(function(h) {
+    if (!h.id) h.id = slugify(h.textContent);
+  });
+
+  // TOC from h1 + h2
+  var toc      = document.getElementById('TOC');
+  var headings = content.querySelectorAll('h1,h2');
+  if (headings.length) {
+    var ul = document.createElement('ul');
+    var subUl = null;
+    headings.forEach(function(h) {
+      var li = document.createElement('li');
+      var a  = document.createElement('a');
+      a.href = '#' + h.id;
+      a.textContent = h.textContent;
+      li.appendChild(a);
+      if (h.tagName === 'H1') {
+        subUl = document.createElement('ul');
+        li.appendChild(subUl);
+        ul.appendChild(li);
+      } else {
+        (subUl || ul).appendChild(li);
+      }
+    });
+    toc.innerHTML = ''; toc.appendChild(ul); toc.style.display = '';
+  } else {
+    toc.style.display = 'none';
+  }
+
+  // Blockquote emoji tagging
+  content.querySelectorAll('blockquote').forEach(function(bq) {
+    var t = bq.textContent || '';
+    if (t.indexOf('\uD83E\uDDE0') !== -1) bq.classList.add('bq-brain');
+    else if (t.indexOf('\uD83D\uDCA1') !== -1) bq.classList.add('bq-bulb');
+  });
+
+  setFont(localStorage.getItem('rg-font') || 'dm-sans');
+  document.title = title;
+}
+
+function showList() {
+  document.getElementById('guide-view').style.display = 'none';
+  document.getElementById('file-list-view').style.display = 'block';
+  document.getElementById('back-to-list-btn').style.display = 'none';
+  document.getElementById('ctrl-menu').classList.remove('open');
+  document.getElementById('ctrl-panel').classList.remove('open');
+  document.title = 'Revision Guides';
+  window.scrollTo(0, 0);
+}
+
+function slugify(t) {
+  return t.toLowerCase().replace(/[^\w\s-]/g,'').replace(/\s+/g,'-').replace(/-+/g,'-').trim();
+}
+
+function esc(s) {
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Hardcoded fallback ───────────────────────────────────────
+// Supports subfolders: "subfolder/file.md"
+var GUIDE_FILES = [
+  // { "path": "Certifications/CCSP_Revision_Guide_v5.md",  "tag": "(ISC)²" },
+  // { "path": "Certifications/CISSP_Revision_Guide_v12.md", "tag": "(ISC)²" },
+  // { "path": "Reference/Defense_in_Depth_Guide_v1.md",        "tag": "Reference" },
+];
+
+// ── Init ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', function() {
+  setTheme(localStorage.getItem('rg-theme') || 'light-blue');
+  setFont(localStorage.getItem('rg-font')   || 'dm-sans');
+  applySize(parseInt(localStorage.getItem('rg-size') || '5', 10));
+  scanFolder();
+});
+</script>
+</body>
+</html>

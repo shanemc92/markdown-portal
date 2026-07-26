@@ -1,0 +1,59 @@
+/* =====================================================
+   Alucard Theme  (Alucard Classic)
+   Official light companion to Dracula
+   https://draculatheme.com/spec
+   ===================================================== */
+
+:root {
+  /* ── Backgrounds (from Alucard UI palette) ──────── */
+  --bg:           #fffbeb;  /* Background */
+  --bg-alt:       #efeddc;  /* Floating / lighter panels */
+
+  /* ── Text ─────────────────────────────────────────── */
+  --text:         #1f1f1f;  /* Foreground */
+  --text-muted:   #6c664b;  /* Comment / Current Line */
+
+  /* ── Accents ──────────────────────────────────────── */
+  --accent:       #644ac9;  /* Purple — headings, h1/h2 */
+  --accent2:      #a3144d;  /* Pink   — h3 */
+
+  /* ── Borders ──────────────────────────────────────── */
+  --border:       #cfcfde;  /* Selection */
+  --border-light: #dedccf;  /* Background Light */
+
+  /* ── Tables ───────────────────────────────────────── */
+  --th-bg:        #644ac9;
+  --th-text:      #fffbeb;
+  --td-alt:       #efeddc;
+
+  /* ── Code ─────────────────────────────────────────── */
+  --code-bg:      #dedccf;  /* Background Light */
+  --code-text:    #036a96;  /* Cyan */
+  --pre-bg:       #282a36;  /* Dracula dark bg — crisp contrast */
+  --pre-text:     #f8f8f2;  /* Dracula foreground */
+  --pre-border:   #644ac9;  /* Purple */
+
+  /* ── Blockquotes ──────────────────────────────────── */
+  --bq-bg:        #efeddc;
+  --bq-border:    #cfcfde;
+
+  /* ── TOC ──────────────────────────────────────────── */
+  --toc-bg:       #efeddc;
+  --toc-link:     #036a96;  /* Cyan — links */
+
+  /* ── Links ────────────────────────────────────────── */
+  --link:         #036a96;
+
+  /* ── Buttons / panel ──────────────────────────────── */
+  --btn-bg:       #644ac9;
+  --btn-text:     #fffbeb;
+  --btn-hover:    #7862d0;  /* Alucard BrightBlue */
+
+  --shadow:       rgba(100,74,201,0.15);
+
+  /* ── Mnemonic blockquotes ─────────────────────────── */
+  --bq-brain-border: #14710a;           /* Alucard Green */
+  --bq-brain-bg:     rgba(20,113,10,0.08);
+  --bq-bulb-border:  #036a96;           /* Alucard Cyan */
+  --bq-bulb-bg:      rgba(3,106,150,0.08);
+}

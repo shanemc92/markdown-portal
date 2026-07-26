@@ -1,0 +1,37 @@
+/* =====================================================
+   Solarized Dark Theme
+   Canonical Ethan Schoonover Solarized Dark palette
+   https://ethanschoonover.com/solarized/
+   ===================================================== */
+
+:root {
+  --bg:           #002b36;  /* base03 — main background */
+  --bg-alt:       #073642;  /* base02 */
+  --text:         #839496;  /* base0  — body text */
+  --text-muted:   #586e75;  /* base01 */
+  --accent:       #b58900;  /* yellow */
+  --accent2:      #cb4b16;  /* orange */
+  --border:       #073642;
+  --border-light: #0d3c47;
+  --th-bg:        #073642;
+  --th-text:      #93a1a1;  /* base1 */
+  --td-alt:       #00242e;
+  --code-bg:      #00212b;
+  --code-text:    #2aa198;  /* cyan */
+  --pre-bg:       #00212b;
+  --pre-text:     #839496;
+  --pre-border:   #b58900;
+  --bq-bg:        #073642;
+  --bq-border:    #586e75;
+  --toc-bg:       #073642;
+  --toc-link:     #268bd2;  /* blue */
+  --link:         #268bd2;
+  --btn-bg:       #073642;
+  --btn-text:     #b58900;
+  --btn-hover:    #0d3c47;
+  --shadow:       rgba(181,137,0,0.15);
+  --bq-brain-border: #859900;
+  --bq-brain-bg:     rgba(133,153,0,0.12);
+  --bq-bulb-border:  #268bd2;
+  --bq-bulb-bg:      rgba(38,139,210,0.12);
+}

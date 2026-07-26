@@ -1,0 +1,36 @@
+/* =====================================================
+   Hacker Terminal Theme
+   Phosphor green on near-black — classic CRT terminal aesthetic
+   ===================================================== */
+
+:root {
+  --bg:           #0a0f0a;
+  --bg-alt:       #0d140d;
+  --text:         #33ff33;
+  --text-muted:   #1a8c1a;
+  --accent:       #00ff41;
+  --accent2:      #39ff14;
+  --border:       #1a5c1a;
+  --border-light: #143314;
+  --th-bg:        #0d2e0d;
+  --th-text:      #00ff41;
+  --td-alt:       #0a120a;
+  --code-bg:      #050a05;
+  --code-text:    #39ff14;
+  --pre-bg:       #050a05;
+  --pre-text:     #33ff33;
+  --pre-border:   #00ff41;
+  --bq-bg:        #0d140d;
+  --bq-border:    #1a5c1a;
+  --toc-bg:       #0a0f0a;
+  --toc-link:     #39ff14;
+  --link:         #39ff14;
+  --btn-bg:       #0d2e0d;
+  --btn-text:     #00ff41;
+  --btn-hover:    #143314;
+  --shadow:       rgba(0,255,65,0.2);
+  --bq-brain-border: #00ff41;
+  --bq-brain-bg:     rgba(0,255,65,0.08);
+  --bq-bulb-border:  #39ff14;
+  --bq-bulb-bg:      rgba(57,255,20,0.06);
+}

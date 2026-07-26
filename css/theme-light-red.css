@@ -1,0 +1,37 @@
+/* =====================================================
+   Light Red Theme
+   White background, pastel Aurora red accents,
+   dark code blocks
+   ===================================================== */
+
+:root {
+  --bg:           #ffffff;
+  --bg-alt:       #f7f7f7;
+  --text:         #1a1a1a;
+  --text-muted:   #555555;
+  --accent:       #bf616a;  /* Nord Aurora red */
+  --accent2:      #d08770;  /* Nord Aurora orange */
+  --border:       #e8b0a8;
+  --border-light: #f0d0cc;
+  --th-bg:        #bf616a;
+  --th-text:      #ffffff;
+  --td-alt:       #fff3f2;
+  --code-bg:      #1e1e1e;
+  --code-text:    #d4d4d4;
+  --pre-bg:       #1e1e1e;
+  --pre-text:     #d4d4d4;
+  --pre-border:   #bf616a;
+  --bq-bg:        #f7f7f7;
+  --bq-border:    #e8b0a8;
+  --toc-bg:       #f7f7f7;
+  --toc-link:     #bf616a;
+  --link:         #bf616a;
+  --btn-bg:       #bf616a;
+  --btn-text:     #ffffff;
+  --btn-hover:    #d08770;
+  --shadow:       rgba(191,97,106,0.18);
+  --bq-brain-border: #a3be8c;
+  --bq-brain-bg:     rgba(163,190,140,0.12);
+  --bq-bulb-border:  #bf616a;
+  --bq-bulb-bg:      rgba(191,97,106,0.10);
+}

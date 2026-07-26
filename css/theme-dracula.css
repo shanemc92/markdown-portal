@@ -1,0 +1,36 @@
+/* =====================================================
+   Dracula Theme
+   Based on the canonical Dracula colour palette
+   ===================================================== */
+
+:root {
+  --bg:           #282a36;
+  --bg-alt:       #21222c;
+  --text:         #f8f8f2;
+  --text-muted:   #6272a4;
+  --accent:       #bd93f9;
+  --accent2:      #ff79c6;
+  --border:       #44475a;
+  --border-light: #383a4a;
+  --th-bg:        #44475a;
+  --th-text:      #f8f8f2;
+  --td-alt:       #2e3040;
+  --code-bg:      #191a21;
+  --code-text:    #50fa7b;
+  --pre-bg:       #191a21;
+  --pre-text:     #f8f8f2;
+  --pre-border:   #bd93f9;
+  --bq-bg:        #21222c;
+  --bq-border:    #6272a4;
+  --toc-bg:       #21222c;
+  --toc-link:     #8be9fd;
+  --link:         #8be9fd;
+  --btn-bg:       #bd93f9;
+  --btn-text:     #282a36;
+  --btn-hover:    #ff79c6;
+  --shadow:       rgba(189,147,249,0.25);
+  --bq-brain-border: #50fa7b;
+  --bq-brain-bg:     rgba(80,250,123,0.08);
+  --bq-bulb-border:  #bd93f9;
+  --bq-bulb-bg:      rgba(189,147,249,0.08);
+}

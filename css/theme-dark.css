@@ -1,0 +1,37 @@
+/* =====================================================
+   Dark Theme
+   Pure black background, white/grey text and UI only —
+   no colour accents, no hue
+   ===================================================== */
+
+:root {
+  --bg:           #0a0a0a;
+  --bg-alt:       #141414;
+  --text:         #d8d8d8;
+  --text-muted:   #787878;
+  --accent:       #c8c8c8;  /* light grey — headings / highlights */
+  --accent2:      #a0a0a0;
+  --border:       #2a2a2a;
+  --border-light: #1e1e1e;
+  --th-bg:        #1e1e1e;
+  --th-text:      #d8d8d8;
+  --td-alt:       #111111;
+  --code-bg:      #050505;
+  --code-text:    #b0b0b0;
+  --pre-bg:       #050505;
+  --pre-text:     #c8c8c8;
+  --pre-border:   #444444;
+  --bq-bg:        #141414;
+  --bq-border:    #2a2a2a;
+  --toc-bg:       #0e0e0e;
+  --toc-link:     #a0a0a0;
+  --link:         #a0a0a0;
+  --btn-bg:       #1e1e1e;
+  --btn-text:     #d8d8d8;
+  --btn-hover:    #2a2a2a;
+  --shadow:       rgba(0,0,0,0.5);
+  --bq-brain-border: #888888;
+  --bq-brain-bg:     rgba(136,136,136,0.08);
+  --bq-bulb-border:  #aaaaaa;
+  --bq-bulb-bg:      rgba(170,170,170,0.06);
+}
