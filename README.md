@@ -4,6 +4,8 @@ A single-file HTML portal that renders your Markdown guides in the browser with
 theming, a table of contents, text scaling, syntax highlighting, and per-block
 copy buttons. No build step - it parses `.md` files at runtime.
 
+![screenshot](docs/screenshot.png)
+
 ## Folder structure
 
 ```
