@@ -1,0 +1,37 @@
+/* =====================================================
+   Nightshell Theme
+   Dark terminal/console aesthetic — navy-black background,
+   blue accents, green highlight text
+   ===================================================== */
+
+:root {
+  --bg:           #0a0d13;
+  --bg-alt:       #161a23;
+  --text:         #e2e5ea;
+  --text-muted:   #8a93a6;
+  --accent:       #4f8ef0;  /* blue — headings / labels */
+  --accent2:      #7aa8d9;
+  --border:       #262b36;
+  --border-light: #1c212b;
+  --th-bg:        #1c212b;
+  --th-text:      #e2e5ea;
+  --td-alt:       #12161d;
+  --code-bg:      #10141b;
+  --code-text:    #4ade80;  /* green — terminal output feel */
+  --pre-bg:       #10141b;
+  --pre-text:     #4ade80;
+  --pre-border:   #2d3542;
+  --bq-bg:        #161a23;
+  --bq-border:    #2d3542;
+  --toc-bg:       #12161d;
+  --toc-link:     #4f8ef0;
+  --link:         #4f8ef0;
+  --btn-bg:       #1c212b;
+  --btn-text:     #e2e5ea;
+  --btn-hover:    #262b36;
+  --shadow:       rgba(0,0,0,0.5);
+  --bq-brain-border: #4ade80;
+  --bq-brain-bg:     rgba(74,222,128,0.08);
+  --bq-bulb-border:  #4f8ef0;
+  --bq-bulb-bg:      rgba(79,142,240,0.08);
+}

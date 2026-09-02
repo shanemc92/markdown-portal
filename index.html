@@ -50,7 +50,7 @@
 
   <link id="hljs-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="css/base.css">
-  <link id="theme-css" rel="stylesheet" href="css/theme-light-blue.css">
+  <link id="theme-css" rel="stylesheet" href="css/theme-nightshell.css">
 
   <style>
     /* ── Guide content rendering ───────────────────── */
@@ -302,7 +302,8 @@
     <button class="theme-option" onclick="setTheme('solarized-dark')"  data-theme="solarized-dark">  <span class="swatch" style="background:#002b36;border-color:#b58900"></span> Solarized Dark</button>
     <button class="theme-option" onclick="setTheme('terminal')"        data-theme="terminal">        <span class="swatch" style="background:#0a0f0a;border-color:#00ff41"></span> Terminal</button>
     <button class="theme-option" onclick="setTheme('hackthebox')"      data-theme="hackthebox">      <span class="swatch" style="background:#111927;border-color:#9fef00"></span> HackTheBox</button>
-    <button class="theme-option" onclick="setTheme('dark')"            data-theme="dark">            <span class="swatch" style="background:#0a0a0a;border-color:#444444"></span> Dark</button>
+    <button class="theme-option" onclick="setTheme('back2black')"      data-theme="back2black">      <span class="swatch" style="background:#0a0a0a;border-color:#444444"></span> Back2Black</button>
+    <button class="theme-option" onclick="setTheme('nightshell')"      data-theme="nightshell">      <span class="swatch" style="background:#0a0d13;border-color:#4f8ef0"></span> Nightshell</button>
     <div class="ctrl-divider"></div>
     <span class="ctrl-label">Font</span>
     <button class="font-option" onclick="setFont('dm-sans')"         data-font="dm-sans">         <span class="font-preview">Aa</span> DM Sans</button>
@@ -351,7 +352,8 @@ var THEMES = {
   'solarized-light': { file: 'css/theme-solarized-light.css', hljs: 'solarized-light'  },
   'solarized-dark':  { file: 'css/theme-solarized-dark.css',  hljs: 'solarized-dark'   },
   'terminal':        { file: 'css/theme-terminal.css',        hljs: 'base16/green-screen' },
-  'dark':            { file: 'css/theme-dark.css',            hljs: 'atom-one-dark'    },
+  'back2black':      { file: 'css/theme-back2black.css',      hljs: 'atom-one-dark'    },
+  'nightshell':      { file: 'css/theme-nightshell.css',      hljs: 'atom-one-dark'    },
   'hackthebox':      { file: 'css/theme-hackthebox.css',      hljs: 'atom-one-dark'    },
 };
 
@@ -721,7 +723,7 @@ var GUIDE_FILES = [
 
 // ── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', function() {
-  setTheme(localStorage.getItem('rg-theme') || 'light-blue');
+  setTheme(localStorage.getItem('rg-theme') || 'nightshell');
   setFont(localStorage.getItem('rg-font')   || 'dm-sans');
   applySize(parseInt(localStorage.getItem('rg-size') || '5', 10));
   scanFolder();

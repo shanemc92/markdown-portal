@@ -1,5 +1,5 @@
 /* =====================================================
-   Dark Theme
+   Back2Black Theme
    Pure black background, white/grey text and UI only —
    no colour accents, no hue
    ===================================================== */
@@ -8,7 +8,7 @@
   --bg:           #0a0a0a;
   --bg-alt:       #141414;
   --text:         #d8d8d8;
-  --text-muted:   #787878;
+  --text-muted:   #8a8a8a;
   --accent:       #c8c8c8;  /* light grey — headings / highlights */
   --accent2:      #a0a0a0;
   --border:       #2a2a2a;
