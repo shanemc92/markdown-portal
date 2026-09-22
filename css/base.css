@@ -5,7 +5,8 @@
    ===================================================== */
 
 /* ── Google Fonts ─────────────────────────────────── */
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,600&family=Lora:ital,wght@0,400;0,600;1,400&family=Montserrat:wght@300;400;600&family=Pangolin&family=Patrick+Hand+SC&family=Fira+Code:wght@400;500&display=swap');
+/* Fonts are self-hosted under vendor/fonts/ and loaded by index.html, so
+   there is no @import of a third-party stylesheet here. */
 
 /* ── CSS custom properties ────────────────────────── */
 :root {

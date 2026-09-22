@@ -84,8 +84,10 @@ Solarized Dark, Terminal, Dark, HackTheBox.
 Each theme also picks a matching highlight.js colour scheme. To add a theme:
 
 1. Copy an existing `css/theme-*.css` and adjust its CSS variables.
-2. Add an entry to the `THEMES` object in `index.html`
-   (`file` = the CSS path, `hljs` = a highlight.js style name).
+2. Add an entry to the `THEMES` object in `index.html` (`file` = the CSS path,
+   `hljs` = a highlight.js style name). The style file has to exist under
+   `vendor/hljs-styles/`, so download it there first; names under `base16/`
+   keep that prefix, e.g. `base16/solarized-dark`.
 3. Add a `<button class="theme-option" ...>` to the Theme controls block.
 
 ## Fonts and text size
@@ -103,9 +105,9 @@ Supported languages out of the box:
 
 | Fence         | Source                           |
 | ------------- | -------------------------------- |
-| `python`      | highlight.js CDN                 |
-| `bash`        | highlight.js CDN                 |
-| `powershell`  | highlight.js CDN                 |
+| `python`      | highlight.js (`vendor/`)         |
+| `bash`        | highlight.js (`vendor/`)         |
+| `powershell`  | highlight.js (`vendor/`)         |
 | `csv` / `tsv` | custom (defined in `index.html`) |
 | `prompt`      | custom (defined in `index.html`) |
 
@@ -138,14 +140,16 @@ A trailing `# comment` on a command line is dimmed.
 Two cases.
 
 1. highlight.js already ships it (sql, yaml, json, dockerfile, http, etc -
-see https://highlightjs.org/download for the list). Add one CDN script line in
-the `<head>` of `index.html`, next to the existing language scripts:
+see https://highlightjs.org/download for the list). Download the language file
+into `vendor/hljs-languages/` and add one script line to the `<head>` of
+`index.html`, next to the existing language scripts:
 
    ```html
-   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/sql.min.js"></script>
+   <script src="vendor/hljs-languages/sql.min.js"></script>
    ```
 
-   That is all - ` ```sql ` blocks now highlight.
+   That is all - ` ```sql ` blocks now highlight. Do not point the tag at a CDN:
+   the page's CSP only allows scripts from its own origin.
 
 2. The language is not built in (like `csv` and `prompt` here). Register a
 small grammar in the custom-languages `<script>` block in `index.html`:
@@ -178,5 +182,14 @@ Grammar reference: https://highlightjs.readthedocs.io/en/latest/language-guide.h
 - Markdown parsing uses marked.js v9; standard GFM (tables, code, blockquotes,
   task lists) renders correctly.
 - The TOC is auto-built from H1/H2 headings.
-- Everything runs client-side from CDN assets; an internet connection is needed
-  the first time the CDN files load (the browser then caches them).
+- Everything runs client-side and nothing is loaded from a CDN. marked,
+  highlight.js (plus its language and style files), DOMPurify and the webfonts
+  are all vendored under `vendor/` with their licences, so the portal works
+  offline and makes no third-party requests.
+- Rendered markdown is sanitised with `DOMPurify.sanitize(marked.parse(md))`
+  before it reaches the DOM. A `.md` file is whatever someone dropped into
+  `md/`, so inline HTML in it is treated as untrusted.
+- `index.html` carries a Content-Security-Policy meta tag restricting scripts,
+  styles and fonts to this origin. `img-src` allows `data:` and `blob:` only,
+  so a markdown file referencing an image file on disk would need `'self'`
+  adding to that directive.

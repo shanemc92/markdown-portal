@@ -3,14 +3,24 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Every script, stylesheet and font is served from this repo, so the only
+       origin in the policy is 'self'. connect-src covers the md/ fetches and
+       md/index.json. img-src is data: and blob: only - a markdown file that
+       references an image on disk would need 'self' adding here.
+       frame-ancestors is deliberately absent: browsers ignore it in a meta CSP
+       and log a warning. It belongs in _headers / .htaccess. -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data: blob:; font-src 'self'; connect-src 'self'; base-uri 'none'; form-action 'none'">
   <title>Revision Guides</title>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/marked/9.1.6/marked.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
-  <!-- CDN languages: Python, Bash/Shell, PowerShell -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/python.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/bash.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/languages/powershell.min.js"></script>
+  <!-- marked 9.1.6 (MIT), highlight.js 11.9.0 (BSD-3-Clause) and DOMPurify 3.0.6
+       (Apache-2.0 / MPL-2.0) are vendored under vendor/ with their licences. -->
+  <script src="vendor/marked.min.js"></script>
+  <script src="vendor/purify.min.js"></script>
+  <script src="vendor/highlight.min.js"></script>
+  <!-- Languages: Python, Bash/Shell, PowerShell -->
+  <script src="vendor/hljs-languages/python.min.js"></script>
+  <script src="vendor/hljs-languages/bash.min.js"></script>
+  <script src="vendor/hljs-languages/powershell.min.js"></script>
 
   <!-- Custom languages (not shipped by highlight.js). See README → "Adding a language". -->
   <script>
@@ -48,7 +58,8 @@
     });
   </script>
 
-  <link id="hljs-css" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/atom-one-dark.min.css">
+  <link rel="stylesheet" href="vendor/fonts/fonts.css">
+  <link id="hljs-css" rel="stylesheet" href="vendor/hljs-styles/atom-one-dark.min.css">
   <link rel="stylesheet" href="css/base.css">
   <link id="theme-css" rel="stylesheet" href="css/theme-nightshell.css">
 
@@ -349,15 +360,15 @@ var THEMES = {
   'light-red':       { file: 'css/theme-light-red.css',       hljs: 'atom-one-light'   },
   'alucard':         { file: 'css/theme-alucard.css',         hljs: 'atom-one-light'   },
   'dracula':         { file: 'css/theme-dracula.css',         hljs: 'atom-one-dark'    },
-  'solarized-light': { file: 'css/theme-solarized-light.css', hljs: 'solarized-light'  },
-  'solarized-dark':  { file: 'css/theme-solarized-dark.css',  hljs: 'solarized-dark'   },
+  'solarized-light': { file: 'css/theme-solarized-light.css', hljs: 'base16/solarized-light' },
+  'solarized-dark':  { file: 'css/theme-solarized-dark.css',  hljs: 'base16/solarized-dark'  },
   'terminal':        { file: 'css/theme-terminal.css',        hljs: 'base16/green-screen' },
   'back2black':      { file: 'css/theme-back2black.css',      hljs: 'atom-one-dark'    },
   'nightshell':      { file: 'css/theme-nightshell.css',      hljs: 'atom-one-dark'    },
   'hackthebox':      { file: 'css/theme-hackthebox.css',      hljs: 'atom-one-dark'    },
 };
 
-var HLJS_BASE = 'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/';
+var HLJS_BASE = 'vendor/hljs-styles/';
 
 function setTheme(name) {
   var t = THEMES[name]; if (!t) return;
@@ -540,10 +551,19 @@ function renderList(files) {
           return s.replace(/[_-]/g,' ').replace(/\b\w/g, function(c){ return c.toUpperCase(); });
         }).join(' › ');
 
-    headingEl.innerHTML =
-      '<span class="folder-icon">▾</span>' +
-      '<span>' + esc(folderLabel) + '</span>' +
-      '<span class="folder-count">' + groupFiles.length + '</span>';
+    // folderLabel comes from a path in index.json, so it is built as text
+    // rather than interpolated into markup.
+    var iconEl = document.createElement('span');
+    iconEl.className = 'folder-icon';
+    iconEl.textContent = '▾';
+    var labelEl = document.createElement('span');
+    labelEl.textContent = folderLabel;
+    var countEl2 = document.createElement('span');
+    countEl2.className = 'folder-count';
+    countEl2.textContent = groupFiles.length;
+    headingEl.appendChild(iconEl);
+    headingEl.appendChild(labelEl);
+    headingEl.appendChild(countEl2);
 
     headingEl.addEventListener('click', function() {
       groupEl.classList.toggle('collapsed');
@@ -568,11 +588,16 @@ function renderList(files) {
       var row = document.createElement('div');
       row.className = 'file-row';
       row.tabIndex  = 0;
-      row.innerHTML =
-        '<span class="file-row-icon">📄</span>' +
-        '<span class="file-row-title">' + esc(title) + '</span>' +
-        (tag ? '<span class="file-row-tag">' + esc(tag) + '</span>' : '') +
-        '<span class="file-row-arrow">›</span>';
+      // title and tag both come from index.json / the filename on disk.
+      [['file-row-icon', '📄'], ['file-row-title', title]]
+        .concat(tag ? [['file-row-tag', tag]] : [])
+        .concat([['file-row-arrow', '›']])
+        .forEach(function(pair) {
+          var sp = document.createElement('span');
+          sp.className = pair[0];
+          sp.textContent = pair[1];
+          row.appendChild(sp);
+        });
 
       row.onclick    = function() { loadGuide(filepath); };
       row.onkeydown  = function(e) { if (e.key==='Enter'||e.key===' ') loadGuide(filepath); };
@@ -626,8 +651,11 @@ function renderGuide(markdown, title) {
     }
   });
 
+  // A .md file is untrusted input: it can be anything dropped into md/.
+  // marked emits raw HTML for inline HTML in the source, so the result is
+  // sanitised before it ever reaches the DOM.
   var content = document.getElementById('guide-content');
-  content.innerHTML = marked.parse(markdown);
+  content.innerHTML = DOMPurify.sanitize(marked.parse(markdown));
 
   // Highlight any code blocks marked didn't tag with a language
   content.querySelectorAll('pre code:not(.hljs)').forEach(function(block) {
